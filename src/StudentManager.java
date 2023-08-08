@@ -1,6 +1,5 @@
 
 import io.FileIO;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -8,15 +7,17 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class StudentManager implements IStudentService {
-    private List<Student> students = new ArrayList<>();;
+    private List<Student> students = new ArrayList<>();
     private final Scanner scanner;
     private Pattern pattern;
     private boolean flag;
-    private final FileIO<Student> file = new FileIO<Student>();
-    private final String PATH = "C:\\Users\\tuyen\\Desktop\\Bai_Thuc_Hanh_Module_2\\src\\data\\student.csv";
+    private final FileIO<Student> file;
+    private final String PATH = "C:\\Users\\tuyen\\Desktop\\Bai_Thuc_Hanh_Module_2\\src\\data\\student";
 
     public StudentManager() {
         scanner = new Scanner(System.in);
+        file = new FileIO<>();
+        getStudents();
         readFromFile();
     }
 
@@ -48,7 +49,7 @@ public class StudentManager implements IStudentService {
     }
 
     private String inputName() {
-        pattern = Pattern.compile("^.$");
+        pattern = Pattern.compile("^.+$");
         System.out.println("Input student name: ");
         return getString();
     }
@@ -60,7 +61,7 @@ public class StudentManager implements IStudentService {
     }
 
     private String inputAddress() {
-        pattern = Pattern.compile("^.$");
+        pattern = Pattern.compile("^.+$");
         System.out.println("Input student address: ");
         return getString();
     }
@@ -94,12 +95,13 @@ public class StudentManager implements IStudentService {
     private String inputGender() {
         System.out.println("choose the student's gender:");
         String gender = "";
-        String choice = "";
+        int choice;
         System.out.printf("%-20d %-20d %-20d\n", 1, 2, 3);
         System.out.printf("%-20s %-20s %-20s\n", "Male", "Female", "Other");
-        pattern = Pattern.compile("^(123)&");
-        if (pattern.matcher(choice).matches()) {
-            switch (Integer.parseInt(choice)) {
+        pattern = Pattern.compile("^[123]&");
+        try {
+            choice = Integer.parseInt(scanner.nextLine());
+            switch (choice) {
                 case 1:
                     gender = "Male";
                     break;
@@ -110,8 +112,8 @@ public class StudentManager implements IStudentService {
                     gender = "Other";
                     break;
             }
-        } else {
-            System.out.println("Please choose the correct one!!!");
+        } catch (Exception e) {
+            System.out.println("Please enter the appropriate option");
         }
         return gender;
     }

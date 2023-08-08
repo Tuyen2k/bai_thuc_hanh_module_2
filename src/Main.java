@@ -62,7 +62,7 @@ public class Main {
                         break;
                 }
             }catch (NumberFormatException e){
-                e.printStackTrace();
+                System.out.println("Please enter the appropriate option");
             }
         }while (choice != 8);
     }
